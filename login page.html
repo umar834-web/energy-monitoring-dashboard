@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <style>
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 4px 24px rgba(255, 193, 7, 0.1); }
+      50% { box-shadow: 0 4px 32px rgba(255, 193, 7, 0.2); }
+      100% { box-shadow: 0 4px 24px rgba(255, 193, 7, 0.1); }
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(-45deg, #FFC107, #2196F3, #4CAF50, #FF9800);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      min-height: 100vh;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 400px;
+      margin: 60px auto;
+      padding: 40px 32px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      animation: glowPulse 3s infinite;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FFC107, #FF9800);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
+    }
+
+    .login-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 32px;
+      text-align: center;
+      color: #263238;
+      background: linear-gradient(45deg, #FFC107, #FF9800);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .input-group {
+      width: 100%;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-group svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #FFC107;
+      transition: color 0.3s ease;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 2px solid #E0E0E0;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .input-group input:focus {
+      border-color: #FFC107;
+      box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+    }
+
+    .input-group input:focus + svg {
+      color: #FF9800;
+    }
+
+    .role-selector {
+      width: 100%;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+
+    .role-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .role-option:hover {
+      background: rgba(255, 193, 7, 0.1);
+    }
+
+    .role-option input[type="radio"] {
+      cursor: pointer;
+      accent-color: #FFC107;
+    }
+
+    .role-option label {
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .remember-forgot {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+      gap: 16px;
+    }
+
+    .remember-forgot label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .remember-forgot input[type="checkbox"] {
+      accent-color: #FFC107;
+    }
+
+    .remember-forgot a {
+      color: #2196F3;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .remember-forgot a:hover {
+      color: #1976D2;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(45deg, #FFC107, #FF9800);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(45deg, #FF9800, #FFC107);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+    }
+
+    .error-message {
+      color: #f44336;
+      font-size: 0.9rem;
+      margin-top: 4px;
+      display: none;
+      padding-left: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        margin: 20px;
+        padding: 30px 20px;
+      }
+
+      .login-title {
+        font-size: 1.5rem;
+      }
+
+      .role-selector {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .content-wrapper {
+        width: 100%;
+        max-width: var(--content-max-width);
+        padding: 0 20px;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            grid-template-columns: 1fr;
+        }
+        .sidebar {
+            transform: translateX(-100%);
+        }
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    :root {
+        --content-max-width: 1200px;
+    }
+    @media (min-width: 1400px) {
+        :root {
+            --content-max-width: 1400px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="avatar">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <div class="login-title">Energy Monitoring<br>Dashboard</div>
+    <form id="loginForm" autocomplete="off">
+      <div class="input-group">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <input type="text" id="username" name="username" placeholder="Email" />
+        <div class="error-message" id="username-error"></div>
+      </div>
+      <div class="input-group">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <input type="password" id="password" name="password" placeholder="Password" />
+        <div class="error-message" id="password-error"></div>
+      </div>
+      <div class="role-selector">
+        <div class="role-option">
+          <input type="radio" id="admin" name="role" value="admin">
+          <label for="admin">Admin</label>
+        </div>
+        <div class="role-option">
+          <input type="radio" id="user" name="role" value="user">
+          <label for="user">User</label>
+        </div>
+      </div>
+      <div class="error-message" id="role-error"></div>
+      <div class="remember-forgot">
+        <label>
+          <input type="checkbox" id="remember" name="remember" />
+          Remember Me
+        </label>
+        <a href="#">Forgot Password?</a>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+  <script>
+    // Demo user profiles
+    const demoUsers = {
+        'admin@gmail.com': {
+            password: '12345',
+            role: 'admin',
+            name: 'Admin User',
+            profile: {
+                email: 'admin@gmail.com',
+                lastLogin: new Date(),
+                energyUsage: '2.4 MW',
+                savings: '45%',
+                carbonOffset: '1.2t'
+            }
+        },
+        'user1@gmail.com': {
+            password: '12345',
+            role: 'user',
+            name: 'John Smith',
+            profile: {
+                email: 'user1@gmail.com',
+                lastLogin: new Date(),
+                energyUsage: '45 kWh',
+                savings: '35%',
+                carbonOffset: '12 kg'
+            }
+        },
+        'user2@gmail.com': {
+            password: '12345',
+            role: 'user',
+            name: 'Sarah Johnson',
+            profile: {
+                email: 'user2@gmail.com',
+                lastLogin: new Date(),
+                energyUsage: '38 kWh',
+                savings: '42%',
+                carbonOffset: '15 kg'
+            }
+        },
+        'user3@gmail.com': {
+            password: '12345',
+            role: 'user',
+            name: 'Mike Wilson',
+            profile: {
+                email: 'user3@gmail.com',
+                lastLogin: new Date(),
+                energyUsage: '52 kWh',
+                savings: '28%',
+                carbonOffset: '10 kg'
+            }
+        }
+    };
+
+    // Track login activity
+    function trackLogin(username, role) {
+        const loginActivity = JSON.parse(localStorage.getItem('loginActivity')) || [];
+        loginActivity.unshift({
+            username: username,
+            role: role,
+            timestamp: new Date().toISOString(),
+            device: navigator.userAgent
+        });
+
+        // Keep only last 10 logins
+        if (loginActivity.length > 10) {
+            loginActivity.pop();
+        }
+
+        localStorage.setItem('loginActivity', JSON.stringify(loginActivity));
+        localStorage.setItem('currentUser', username);
+    }
+
+    // Validate login credentials
+    function validateLogin(email, password, role) {
+        const user = demoUsers[email];
+
+        if (!user) {
+            return {
+                valid: false,
+                message: 'Invalid email address'
+            };
+        }
+
+        if (user.password !== password) {
+            return {
+                valid: false,
+                message: 'Invalid password'
+            };
+        }
+
+        if (user.role !== role) {
+            return {
+                valid: false,
+                message: 'Invalid role for this user'
+            };
+        }
+
+        return {
+            valid: true,
+            user: user
+        };
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+
+        // Get form values
+        const email = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const role = document.querySelector('input[name="role"]:checked')?.value;
+
+        // Validate inputs
+        let isValid = true;
+
+        if (email === '') {
+            document.getElementById('username-error').textContent = 'Please enter your email';
+            document.getElementById('username-error').style.display = 'block';
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            document.getElementById('username-error').textContent = 'Please enter a valid email';
+            document.getElementById('username-error').style.display = 'block';
+            isValid = false;
+        }
+
+        if (password === '') {
+            document.getElementById('password-error').textContent = 'Please enter your password';
+            document.getElementById('password-error').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!role) {
+            document.getElementById('role-error').textContent = 'Please select a role';
+            document.getElementById('role-error').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // Validate credentials
+        const validation = validateLogin(email, password, role);
+
+        if (validation.valid) {
+            // Store user profile data
+            localStorage.setItem('userProfile', JSON.stringify(validation.user.profile));
+
+            // Track login
+            trackLogin(email, role);
+
+            // Redirect based on role
+            if (role === 'admin') {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                window.location.href = 'user-dashboard.html';
+            }
+        } else {
+            document.getElementById('password-error').textContent = validation.message;
+            document.getElementById('password-error').style.display = 'block';
+        }
+    });
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Auto-select role based on email
+    document.getElementById('username').addEventListener('change', function() {
+        const email = this.value.trim();
+        const user = demoUsers[email];
+        if (user) {
+            const roleRadio = document.querySelector(`input[name="role"][value="${user.role}"]`);
+            if (roleRadio) {
+                roleRadio.checked = true;
+            }
+        }
+    });
+  </script>
+</body>
+</html>
